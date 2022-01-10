@@ -32,7 +32,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -44,17 +43,15 @@ public class HuskyTeleOpMode extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     HuskyBot huskyBot = new HuskyBot();
-    Gamepad.RumbleEffect rumbleEffect;
-    final double END_GAME_TIME = 10.0;
 
+    final double END_GAME_TIME = 90.0;  // last 30 seconds
+    final double FINAL_TIME = 110.0;    // last 10 seconds
+    boolean endGameRumbled = false;
+    boolean finalRumbled = false;
 
     @Override
     public void runOpMode() {
         huskyBot.init(hardwareMap);
-
-        rumbleEffect = new Gamepad.RumbleEffect.Builder()
-                .addStep(1.0, 1.0, 1000)
-                .build();
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -64,15 +61,24 @@ public class HuskyTeleOpMode extends LinearOpMode {
 
         boolean intakeOn = false;
         boolean armControlGamepad1 = true;
-        int armTarget = huskyBot.arm.getCurrentPosition();
+
+        int armTarget = HuskyBot.ARM_LEVEL_1; // start with arm position at level 1 so it doesn't touch the ground
+        huskyBot.arm.setVelocity(300); // max velocity
 
         double y, x, rx;
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            if ((runtime.seconds() > END_GAME_TIME))  {
-                gamepad1.runRumbleEffect(rumbleEffect);
+            if ((runtime.seconds() > END_GAME_TIME) && !endGameRumbled)  {
+                gamepad1.rumble(1000);
+                endGameRumbled = true;
             }
+
+            if ((runtime.seconds() > FINAL_TIME) && !finalRumbled)  {
+                gamepad1.rumbleBlips(3);
+                finalRumbled = true;
+            }
+
             // drive mechanism
             y = -gamepad1.left_stick_y; // Remember, this is reversed!
             x = gamepad1.left_stick_x;

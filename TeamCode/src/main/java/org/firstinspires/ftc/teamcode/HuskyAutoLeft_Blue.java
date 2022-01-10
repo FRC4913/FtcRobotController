@@ -62,8 +62,6 @@ public class HuskyAutoLeft_Blue extends HuskyAutoBase {
         telemetry.addData("Delivery", "Got delivery level " + deliveryLevel);
         telemetry.update();
 
-        encoderDrive(AUTO_DRIVE_SPEED, 6, 1);
-
         switch (deliveryLevel) {
             case LEVEL_2:
                 huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_2);
@@ -81,6 +79,7 @@ public class HuskyAutoLeft_Blue extends HuskyAutoBase {
         }
         huskyBot.arm.setVelocity(300);
 
+        encoderDrive(AUTO_DRIVE_SPEED, 6, 1);
         encoderStrafe(AUTO_DRIVE_SPEED, -20, 2);
         encoderDrive(AUTO_DRIVE_SPEED, forwardDistanceInches, 1);
 
@@ -94,7 +93,7 @@ public class HuskyAutoLeft_Blue extends HuskyAutoBase {
         // back up before lowering arm
         encoderDrive(AUTO_DRIVE_SPEED, -forwardDistanceInches, 1);
 
-        huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_0);
+        huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_1);
         huskyBot.arm.setVelocity(300);
         encoderStrafe(AUTO_DRIVE_SPEED, 20, 2);
         encoderDrive(AUTO_DRIVE_SPEED, -6, 1);
