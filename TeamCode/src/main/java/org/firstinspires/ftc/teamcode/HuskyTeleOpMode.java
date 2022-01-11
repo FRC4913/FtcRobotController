@@ -163,16 +163,16 @@ public class HuskyTeleOpMode extends LinearOpMode {
                 // set intaker power only if the trigger is more than 0.3 pressed to ignore
                 // accidental presses while driving
                 double intakerPower = (gamepad1.right_trigger > 0.3) ?
-                        gamepad1.right_trigger :
+                        HuskyBot.INTAKER_POWER_IN :
                         ((gamepad1.left_trigger > 0.3) ?
-                                -gamepad1.left_trigger :
+                                HuskyBot.INTAKER_POWER_OUT :
                                 0);
 
                 // allow the intaker to be controller by gamepad2 as well if needed
                 double intakerPower2 = (gamepad2.right_trigger > 0.3) ?
-                        gamepad2.right_trigger :
+                        HuskyBot.INTAKER_POWER_IN :
                         ((gamepad2.left_trigger > 0.3) ?
-                                -gamepad2.left_trigger :
+                                HuskyBot.INTAKER_POWER_OUT :
                                 0);
 
                 // preference is given to gamepad1 values if not 0
@@ -185,8 +185,10 @@ public class HuskyTeleOpMode extends LinearOpMode {
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Velocity", "front left (%.2f), rear left (%.2f)", huskyBot.frontLeftDrive.getVelocity(), huskyBot.rearLeftDrive.getVelocity());
-            telemetry.addData("Velocity", "front right (%.2f), rear right (%.2f)", huskyBot.frontRightDrive.getVelocity(), huskyBot.rearRightDrive.getVelocity());
+            telemetry.addData("Actual Vel", "fl (%.2f), rl (%.2f)", huskyBot.frontLeftDrive.getVelocity(), huskyBot.rearLeftDrive.getVelocity());
+            telemetry.addData("Actual Vel", "fr (%.2f), rr (%.2f)", huskyBot.frontRightDrive.getVelocity(), huskyBot.rearRightDrive.getVelocity());
+            telemetry.addData("Target Vel", "fl (%.2f), rl (%.2f)", frontLeftVelocity, rearLeftVelocity);
+            telemetry.addData("Target Vel", "fr (%.2f), rr (%.2f)", frontRightVelocity, rearRightVelocity);
             telemetry.addData("Power", "front left (%.2f), rear left (%.2f)", huskyBot.frontLeftDrive.getPower(), huskyBot.rearLeftDrive.getPower());
             telemetry.addData("Power", "front right (%.2f), rear right (%.2f)",  huskyBot.frontLeftDrive.getPower(), huskyBot.rearLeftDrive.getPower());
             telemetry.addData("Arm", "Power (%.2f), Encoder Value: (%d)", huskyBot.arm.getPower(), huskyBot.arm.getCurrentPosition());

@@ -58,15 +58,16 @@ public class HuskyBot {
 
     // HD Hex Motor = 28 ticks per rev. See https://docs.revrobotics.com/rev-control-system/sensors/encoders
     // max free speed = 100 rps. See https://www.revrobotics.com/rev-41-1600/
-    public static final int VELOCITY_CONSTANT = 28 * 100;
+    // S
+    public static final double VELOCITY_CONSTANT = 28 * 100 * 0.7;
 
     public static final int ARM_LEVEL_0 = 0;
-    public static final int ARM_LEVEL_1 = 375;
-    public static final int ARM_LEVEL_2 = 510;
-    public static final int ARM_LEVEL_3 = 680;
+    public static final int ARM_LEVEL_1 = 190;
+    public static final int ARM_LEVEL_2 = 400;
+    public static final int ARM_LEVEL_3 = 560;
 
-    public static final double INTAKER_POWER_IN = 1.0;
-    public static final double INTAKER_POWER_OUT = -0.7;
+    public static final double INTAKER_POWER_IN = 0.8;
+    public static final double INTAKER_POWER_OUT = -0.6;
 
     public static final int ARM_LOW_LIMIT = 0;
     public static final int ARM_HIGH_LIMIT = 750;
@@ -136,13 +137,13 @@ public class HuskyBot {
         rearRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // https://docs.google.com/document/u/1/d/1tyWrXDfMidwYyP_5H4mZyVgaEswhOC35gvdmP-V-5hA/mobilebasic
-        frontLeftDrive.setVelocityPIDFCoefficients(1.25, 0.125, 0, 12.5);
+        frontLeftDrive.setVelocityPIDFCoefficients(1.59, 0.159, 0, 15.9);
         frontLeftDrive.setPositionPIDFCoefficients(5.0);
-        frontRightDrive.setVelocityPIDFCoefficients(1.17, 0.117, 0, 11.7);
-        frontRightDrive.setPositionPIDFCoefficients(5.0);
-        rearLeftDrive.setVelocityPIDFCoefficients(1.27, 0.127, 0, 12.7);
+        rearLeftDrive.setVelocityPIDFCoefficients(1.24, 0.124, 0, 12.4);
         rearLeftDrive.setPositionPIDFCoefficients(5.0);
-        rearRightDrive.setVelocityPIDFCoefficients(1.29, 0.129, 0, 12.9);
+        frontRightDrive.setVelocityPIDFCoefficients(1.57, 0.157, 0, 15.7);
+        frontRightDrive.setPositionPIDFCoefficients(5.0);
+        rearRightDrive.setVelocityPIDFCoefficients(1.28, 0.128, 0, 12.8);
         rearRightDrive.setPositionPIDFCoefficients(5.0);
 
         arm.setTargetPosition(0);
