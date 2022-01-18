@@ -93,7 +93,7 @@ public class HuskyAutoLeft_Blue extends HuskyAutoBase {
         // back up before lowering arm
         encoderDrive(AUTO_DRIVE_SPEED, -forwardDistanceInches, 1);
 
-        huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_1);
+        huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_0);
         huskyBot.arm.setVelocity(300);
         encoderStrafe(AUTO_DRIVE_SPEED, 20, 2);
         encoderDrive(AUTO_DRIVE_SPEED, -6, 1);

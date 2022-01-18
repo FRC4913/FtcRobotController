@@ -53,6 +53,8 @@ public class HuskyAutoBase extends LinearOpMode {
 
     // autonomous mode constants
     static final double COUNTS_PER_MOTOR_REV = 28;
+    // 3.61 * 5.23 * 45/72
+    // see: https://docs.revrobotics.com/rev-control-system/programming/hello-robot-autonomous-robot/robot-navigation-blocks/autonomous-navigation-blocks#total-gear-reduction
     static final double DRIVE_GEAR_REDUCTION = 11.80;
 
     // 75 mm mecanum wheels
@@ -231,11 +233,11 @@ public class HuskyAutoBase extends LinearOpMode {
         /*
          * The core values which define the location and size of the sample regions
          */
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(10, 100);
-        static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(130, 100);
-        static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(250, 100);
-        static final int REGION_WIDTH = 70;
-        static final int REGION_HEIGHT = 70;
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(0, 100);
+        static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(120, 100);
+        static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(240, 100);
+        static final int REGION_WIDTH = 80;
+        static final int REGION_HEIGHT = 80;
 
         /*
          * Points which actually define the sample region rectangles, derived from above values

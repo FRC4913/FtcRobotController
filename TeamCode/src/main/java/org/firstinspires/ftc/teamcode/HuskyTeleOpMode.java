@@ -61,9 +61,7 @@ public class HuskyTeleOpMode extends LinearOpMode {
 
         boolean intakeOn = false;
         boolean armControlGamepad1 = true;
-
-        int armTarget = HuskyBot.ARM_LEVEL_1; // start with arm position at level 1 so it doesn't touch the ground
-        huskyBot.arm.setVelocity(300); // max velocity
+        int armTarget = huskyBot.arm.getCurrentPosition();
 
         double y, x, rx;
 

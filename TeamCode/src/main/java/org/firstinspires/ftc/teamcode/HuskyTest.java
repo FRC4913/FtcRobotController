@@ -63,6 +63,7 @@ public class HuskyTest extends LinearOpMode {
         runtime.reset();
 
         int motor = 0;
+        int targetArmPosition = 0;
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
@@ -70,6 +71,26 @@ public class HuskyTest extends LinearOpMode {
             double y = -gamepad1.left_stick_y; // Remember, this is reversed!
 
             double power = Range.clip(y, -1.0, 1.0);
+
+            if (gamepad1.dpad_up) {
+                targetArmPosition += 10;
+                sleep(100);
+            }
+            if (gamepad1.dpad_down) {
+                targetArmPosition -= 10;
+                sleep(100);
+            }
+            if (gamepad1.dpad_right) {
+                huskyBot.arm.setTargetPosition(targetArmPosition);
+                huskyBot.arm.setVelocity(300);
+            }
+
+            double intakerPower = (gamepad1.right_trigger > 0.3) ?
+                    HuskyBot.INTAKER_POWER_IN :
+                    ((gamepad1.left_trigger > 0.3) ?
+                            HuskyBot.INTAKER_POWER_OUT :
+                            0);
+            huskyBot.intaker.setPower(intakerPower);
 
             if (gamepad1.a) {
                 motor = 0;
@@ -137,6 +158,8 @@ public class HuskyTest extends LinearOpMode {
             telemetry.addData("Motors", "front left power (%.2f)", huskyBot.frontLeftDrive.getPower());
             telemetry.addData("Motors", "rear right power (%.2f)", huskyBot.rearRightDrive.getPower());
             telemetry.addData("Motors", "rear left power (%.2f)", huskyBot.rearLeftDrive.getPower());
+            telemetry.addData("Arm", "Current Position (%d)", huskyBot.arm.getCurrentPosition());
+            telemetry.addData("Arm", "Target Position (%d)", targetArmPosition);
 
 //            telemetry.addData("current velocity", currentVelocity);
 //            telemetry.addData("maximum velocity", maxVelocity);

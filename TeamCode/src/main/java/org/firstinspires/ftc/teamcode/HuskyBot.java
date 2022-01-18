@@ -62,9 +62,9 @@ public class HuskyBot {
     public static final double VELOCITY_CONSTANT = 28 * 100 * 0.7;
 
     public static final int ARM_LEVEL_0 = 0;
-    public static final int ARM_LEVEL_1 = 190;
-    public static final int ARM_LEVEL_2 = 400;
-    public static final int ARM_LEVEL_3 = 560;
+    public static final int ARM_LEVEL_1 = 280;
+    public static final int ARM_LEVEL_2 = 480;
+    public static final int ARM_LEVEL_3 = 640;
 
     public static final double INTAKER_POWER_IN = 0.8;
     public static final double INTAKER_POWER_OUT = -0.6;
