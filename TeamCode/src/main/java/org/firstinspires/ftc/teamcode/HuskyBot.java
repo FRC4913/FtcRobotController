@@ -54,12 +54,16 @@ public class HuskyBot {
     public DcMotor spinner = null;
 
     public TouchSensor armLimit = null;
-    public DistanceSensor distanceSensor = null;
+    public DistanceSensor distanceSensorFrontLeft = null;
+    public DistanceSensor distanceSensorFrontRight = null;
+    public DistanceSensor distanceSensorBack = null;
+    public DistanceSensor distanceSensorLeft = null;
+    public DistanceSensor distanceSensorRight = null;
 
     // HD Hex Motor = 28 ticks per rev. See https://docs.revrobotics.com/rev-control-system/sensors/encoders
     // max free speed = 100 rps. See https://www.revrobotics.com/rev-41-1600/
     // S
-    public static final double VELOCITY_CONSTANT = 28 * 100 * 0.7;
+    public static final double VELOCITY_CONSTANT = 28 * 100;
 
     public static final int ARM_LEVEL_0 = 0;
     public static final int ARM_LEVEL_1 = 280;
@@ -72,7 +76,8 @@ public class HuskyBot {
     public static final int ARM_LOW_LIMIT = 0;
     public static final int ARM_HIGH_LIMIT = 750;
 
-    public static final double SPINNER_POWER = 1.0;
+    public static final double SPINNER_POWER = 0.8;
+    public static final double SPINNER_POWER_INCREMENT = 0.1;
 
     public static final double AUTO_DRIVE_SPEED = 0.5;
     public static final double AUTO_TURN_SPEED = 0.5;
@@ -107,7 +112,11 @@ public class HuskyBot {
         spinner = hwMap.get(DcMotor.class, "spinner");
 
         armLimit = hwMap.get(TouchSensor.class, "armLimit");
-        distanceSensor = hwMap.get(DistanceSensor.class, "distance");
+        distanceSensorFrontLeft = hwMap.get(DistanceSensor.class, "distanceFrontLeft");
+        distanceSensorFrontRight = hwMap.get(DistanceSensor.class, "distanceFrontRight");
+        distanceSensorBack = hwMap.get(DistanceSensor.class, "distanceBack");
+        distanceSensorLeft = hwMap.get(DistanceSensor.class, "distanceLeft");
+        distanceSensorRight = hwMap.get(DistanceSensor.class, "distanceRight");
 
         frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         rearLeftDrive.setDirection(DcMotor.Direction.REVERSE);

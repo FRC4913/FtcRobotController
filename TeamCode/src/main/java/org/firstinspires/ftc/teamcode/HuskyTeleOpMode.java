@@ -49,6 +49,8 @@ public class HuskyTeleOpMode extends LinearOpMode {
     boolean endGameRumbled = false;
     boolean finalRumbled = false;
 
+    double spinnerPower = 0.0;
+
     @Override
     public void runOpMode() {
         huskyBot.init(hardwareMap);
@@ -148,9 +150,9 @@ public class HuskyTeleOpMode extends LinearOpMode {
                 huskyBot.arm.setPower(armPower);
             }
 
-            if (gamepad1.dpad_up) {
+            if (gamepad1.left_bumper) {
                 intakeOn = true;
-            } else if (gamepad1.dpad_down) {
+            } else if (gamepad1.right_bumper) {
                 intakeOn = false;
             }
 
@@ -177,9 +179,23 @@ public class HuskyTeleOpMode extends LinearOpMode {
                 huskyBot.intaker.setPower((intakerPower != 0) ? intakerPower : intakerPower2);
             }
 
-            // spinner mechanism
-            huskyBot.spinner.setPower(gamepad1.dpad_left ?
-                    HuskyBot.SPINNER_POWER : gamepad1.dpad_right ? -HuskyBot.SPINNER_POWER : 0);
+            // spinner mechanism, increase power gradually
+            if (gamepad1.dpad_left) {
+                spinnerPower += HuskyBot.SPINNER_POWER_INCREMENT;
+                if (spinnerPower >= HuskyBot.SPINNER_POWER) spinnerPower = HuskyBot.SPINNER_POWER;
+                huskyBot.spinner.setPower(spinnerPower);
+            }
+            else if (gamepad1.dpad_right) {
+                spinnerPower -= HuskyBot.SPINNER_POWER_INCREMENT;
+                if (spinnerPower <= -HuskyBot.SPINNER_POWER) spinnerPower = -HuskyBot.SPINNER_POWER;
+                huskyBot.spinner.setPower(spinnerPower);
+            }
+            else {
+                spinnerPower = 0.0;
+                huskyBot.spinner.setPower(0);
+            }
+//            huskyBot.spinner.setPower(gamepad1.dpad_left ?
+//                    HuskyBot.SPINNER_POWER : gamepad1.dpad_right ? -HuskyBot.SPINNER_POWER : 0);
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
@@ -199,7 +215,11 @@ public class HuskyTeleOpMode extends LinearOpMode {
             telemetry.addData("Velocity", "front left (%.2f), rear left (%.2f)", frontLeftVelocity, rearLeftVelocity);
             telemetry.addData("Velocity", "front right (%.2f), rear right (%.2f)", frontRightVelocity, rearRightVelocity);
 
-            telemetry.addData("Distance", huskyBot.distanceSensor.getDistance(DistanceUnit.MM));
+            telemetry.addData("Distance Front Left", huskyBot.distanceSensorFrontLeft.getDistance(DistanceUnit.MM));
+            telemetry.addData("Distance Front Right", huskyBot.distanceSensorFrontRight.getDistance(DistanceUnit.MM));
+            telemetry.addData("Distance Right", huskyBot.distanceSensorRight.getDistance(DistanceUnit.MM));
+            telemetry.addData("Distance Back", huskyBot.distanceSensorBack.getDistance(DistanceUnit.MM));
+            telemetry.addData("Distance Left", huskyBot.distanceSensorLeft.getDistance(DistanceUnit.MM));
 
             telemetry.update();
         }
