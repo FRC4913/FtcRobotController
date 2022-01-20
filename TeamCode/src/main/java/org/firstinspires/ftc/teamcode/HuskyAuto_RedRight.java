@@ -33,8 +33,8 @@ import static org.firstinspires.ftc.teamcode.HuskyAutoBase.DeliveryLevelPipeline
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous(name = "Auto Right Blue", group = "Auto", preselectTeleOp = "Husky TeleOpMode")
-public class HuskyAuto_RightBlue extends HuskyAutoBase {
+@Autonomous(name = "Auto Red Right", group = "Auto", preselectTeleOp = "Husky TeleOpMode")
+public class HuskyAuto_RedRight extends HuskyAutoBase {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -44,7 +44,7 @@ public class HuskyAuto_RightBlue extends HuskyAutoBase {
         telemetry.update();
 
         DeliveryLevel deliveryLevel = DeliveryLevel.LEVEL_0;    // default undefined level
-        double forwardDistanceInches = 6;
+        double forwardDistanceInches;
 
         waitForStart();
         runtime.reset();
@@ -66,22 +66,22 @@ public class HuskyAuto_RightBlue extends HuskyAutoBase {
         switch (deliveryLevel) {
             case LEVEL_2:
                 huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_2);
-                forwardDistanceInches = 8.5;
+                forwardDistanceInches = 8;
                 break;
             case LEVEL_3:
                 huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_3);
-                forwardDistanceInches = 9.5;
+                forwardDistanceInches = 9;
                 break;
             case LEVEL_1:
             default:
                 huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_1);
-                forwardDistanceInches = 9;
+                forwardDistanceInches = 8.5;
                 break;
         }
         huskyBot.arm.setVelocity(300);
 
         encoderDrive(AUTO_DRIVE_SPEED, 6, 1);
-        encoderStrafe(AUTO_STRAFE_SPEED, -20, 2);
+        encoderStrafe(AUTO_STRAFE_SPEED, -22, 2);
         encoderDrive(AUTO_DRIVE_SPEED, forwardDistanceInches, 1);
 
         // deliver cargo
@@ -96,10 +96,9 @@ public class HuskyAuto_RightBlue extends HuskyAutoBase {
         huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_0);
         huskyBot.arm.setVelocity(300);
 
-        encoderTurn(AUTO_TURN_SPEED, -90, 2);
-        encoderDrive(AUTO_DRIVE_SPEED, -38, 2);
-        sleep(1000);
-        encoderStrafe(AUTO_STRAFE_SPEED, 20, 2);
+//        encoderTurn(AUTO_TURN_SPEED, -90, 2);
+//        encoderDrive(AUTO_DRIVE_SPEED, -38, 2);
+        encoderStrafe(AUTO_STRAFE_SPEED, -22, 2);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

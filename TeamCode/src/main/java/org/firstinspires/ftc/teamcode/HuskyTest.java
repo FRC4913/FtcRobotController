@@ -74,11 +74,15 @@ public class HuskyTest extends LinearOpMode {
 
             if (gamepad1.dpad_up) {
                 targetArmPosition += 10;
-                sleep(100);
+                while(gamepad1.dpad_up) {
+                    idle();
+                }
             }
             if (gamepad1.dpad_down) {
                 targetArmPosition -= 10;
-                sleep(100);
+                while(gamepad1.dpad_down) {
+                    idle();
+                }
             }
             if (gamepad1.dpad_right) {
                 huskyBot.arm.setTargetPosition(targetArmPosition);

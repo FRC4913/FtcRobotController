@@ -142,13 +142,13 @@ public class HuskyBot {
         rearRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // https://docs.google.com/document/u/1/d/1tyWrXDfMidwYyP_5H4mZyVgaEswhOC35gvdmP-V-5hA/mobilebasic
-        frontLeftDrive.setVelocityPIDFCoefficients(1.59, 0.159, 0, 15.9);
+        frontLeftDrive.setVelocityPIDFCoefficients(1.82, 0.182, 0, 18.2);
         frontLeftDrive.setPositionPIDFCoefficients(5.0);
-        rearLeftDrive.setVelocityPIDFCoefficients(1.24, 0.124, 0, 12.4);
+        rearLeftDrive.setVelocityPIDFCoefficients(1.18, 0.118, 0, 11.8);
         rearLeftDrive.setPositionPIDFCoefficients(5.0);
-        frontRightDrive.setVelocityPIDFCoefficients(1.57, 0.157, 0, 15.7);
+        frontRightDrive.setVelocityPIDFCoefficients(1.43, 0.143, 0, 14.3);
         frontRightDrive.setPositionPIDFCoefficients(5.0);
-        rearRightDrive.setVelocityPIDFCoefficients(1.28, 0.128, 0, 12.8);
+        rearRightDrive.setVelocityPIDFCoefficients(1.27, 0.127, 0, 12.7);
         rearRightDrive.setPositionPIDFCoefficients(5.0);
 
         arm.setTargetPosition(0);

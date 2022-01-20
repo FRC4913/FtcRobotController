@@ -69,13 +69,18 @@ public class HuskyTeleOpMode extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+//            if ((huskyBot.distanceSensorFrontLeft.getDistance(DistanceUnit.MM) < 20) ||
+//                    (huskyBot.distanceSensorFrontRight.getDistance(DistanceUnit.MM) < 20)) {
+//                gamepad1.rumbleBlips(1);
+//            }
+
             if ((runtime.seconds() > END_GAME_TIME) && !endGameRumbled)  {
                 gamepad1.rumble(1000);
                 endGameRumbled = true;
             }
 
             if ((runtime.seconds() > FINAL_TIME) && !finalRumbled)  {
-                gamepad1.rumbleBlips(3);
+                gamepad1.rumble(1000);
                 finalRumbled = true;
             }
 

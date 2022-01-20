@@ -67,7 +67,7 @@ public class HuskyAutoBase extends LinearOpMode {
     public static final double AUTO_DRIVE_SPEED = 0.5;
     public static final double AUTO_TURN_SPEED = 0.4;
     public static final double AUTO_STRAFE_SPEED = 0.5;
-    public static final int TURN_TRAVEL_INCHES = 20;
+    public static final int TURN_TRAVEL_INCHES = 19;
 
     private OpenCvWebcam webcam;
 
@@ -121,7 +121,7 @@ public class HuskyAutoBase extends LinearOpMode {
     public void encoderStrafe(double speed, double distanceInches, double timeoutSecs) {
         // Determine new target position, and pass to motor controller
         int target = (int) (distanceInches * COUNTS_PER_INCH);
-        driveToTarget(speed, (int) (target * 1.2), -target, -target, target, timeoutSecs);
+        driveToTarget(speed, (int) (target * 1.2), (int) (-target * 1.1), -target, target, timeoutSecs);
     }
 
     public void encoderTurn(double speed, double angleDegrees, double timeoutSecs) {
