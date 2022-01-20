@@ -34,6 +34,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -63,8 +65,9 @@ public class HuskyAutoBase extends LinearOpMode {
     static final double COUNTS_PER_INCH = COUNTS_PER_WHEEL_REV / (WHEEL_DIAMETER_INCHES * Math.PI);
 
     public static final double AUTO_DRIVE_SPEED = 0.5;
-    public static final double AUTO_TURN_SPEED = 0.5;
+    public static final double AUTO_TURN_SPEED = 0.4;
     public static final double AUTO_STRAFE_SPEED = 0.5;
+    public static final int TURN_TRAVEL_INCHES = 20;
 
     private OpenCvWebcam webcam;
 
@@ -101,7 +104,6 @@ public class HuskyAutoBase extends LinearOpMode {
      *  3) Driver stops the opmode running.
      */
     public void encoderDrive(double speed, double distanceInches, double timeoutSecs) {
-        resetDriveEncoders();
         // Determine new target position, and pass to motor controller
         // target is same for all motors
         int target = (int) (distanceInches * COUNTS_PER_INCH);
@@ -117,10 +119,19 @@ public class HuskyAutoBase extends LinearOpMode {
      *  3) Driver stops the opmode running.
      */
     public void encoderStrafe(double speed, double distanceInches, double timeoutSecs) {
-        resetDriveEncoders();
         // Determine new target position, and pass to motor controller
         int target = (int) (distanceInches * COUNTS_PER_INCH);
         driveToTarget(speed, (int) (target * 1.2), -target, -target, target, timeoutSecs);
+    }
+
+    public void encoderTurn(double speed, double angleDegrees, double timeoutSecs) {
+        // convert angles to inches
+        // based on field tests, 90º turn is TURN_TRAVEL_INCHES distance
+        // obviously, this is not going to be accurate. future improvements will be using
+        // roadrunner (which uses imu) to turn accurately
+        double targetAngle = AngleUnit.normalizeDegrees(angleDegrees);
+        int target = (int) ((targetAngle / 90) * TURN_TRAVEL_INCHES * COUNTS_PER_INCH);
+        driveToTarget(speed, target, -target, target, -target, timeoutSecs);
     }
 
     private void resetDriveEncoders() {
@@ -130,8 +141,9 @@ public class HuskyAutoBase extends LinearOpMode {
         huskyBot.rearRightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
-    private void driveToTarget(double speed, int frontLeftTarget, int frontRightTarget,
+    public void driveToTarget(double speed, int frontLeftTarget, int frontRightTarget,
                                int rearLeftTarget, int rearRightTarget, double timeoutSecs) {
+        resetDriveEncoders();
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
             huskyBot.frontLeftDrive.setTargetPosition(frontLeftTarget);
@@ -161,6 +173,7 @@ public class HuskyAutoBase extends LinearOpMode {
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutSecs) &&
                     (huskyBot.frontLeftDrive.isBusy() && huskyBot.frontRightDrive.isBusy())) {
+                telemetry.addData("Runtime", runtime.seconds());
                 telemetry.addData("Target Position", "front left: %7d, front right: %7d",
                         frontLeftTarget, frontRightTarget);
                 telemetry.addData("Target Position", "rear left: %7d, rear right: %7d",
@@ -204,12 +217,18 @@ public class HuskyAutoBase extends LinearOpMode {
                 huskyBot.rearLeftDrive.getPower(),
                 huskyBot.rearRightDrive.getPower());
 
-        telemetry.addData("Frame Count", webcam.getFrameCount());
-        telemetry.addData("FPS", String.format("%.2f", webcam.getFps()));
-        telemetry.addData("Total frame time ms", webcam.getTotalFrameTimeMs());
-        telemetry.addData("Pipeline time ms", webcam.getPipelineTimeMs());
-        telemetry.addData("Overhead time ms", webcam.getOverheadTimeMs());
-        telemetry.addData("Theoretical max FPS", webcam.getCurrentPipelineMaxFps());
+        telemetry.addData("Distance Front Left", huskyBot.distanceSensorFrontLeft.getDistance(DistanceUnit.MM));
+        telemetry.addData("Distance Front Right", huskyBot.distanceSensorFrontRight.getDistance(DistanceUnit.MM));
+        telemetry.addData("Distance Right", huskyBot.distanceSensorRight.getDistance(DistanceUnit.MM));
+        telemetry.addData("Distance Back", huskyBot.distanceSensorBack.getDistance(DistanceUnit.MM));
+        telemetry.addData("Distance Left", huskyBot.distanceSensorLeft.getDistance(DistanceUnit.MM));
+
+//        telemetry.addData("Frame Count", webcam.getFrameCount());
+//        telemetry.addData("FPS", String.format("%.2f", webcam.getFps()));
+//        telemetry.addData("Total frame time ms", webcam.getTotalFrameTimeMs());
+//        telemetry.addData("Pipeline time ms", webcam.getPipelineTimeMs());
+//        telemetry.addData("Overhead time ms", webcam.getOverheadTimeMs());
+//        telemetry.addData("Theoretical max FPS", webcam.getCurrentPipelineMaxFps());
         telemetry.update();
 
         telemetry.update();
@@ -233,10 +252,10 @@ public class HuskyAutoBase extends LinearOpMode {
         /*
          * The core values which define the location and size of the sample regions
          */
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(0, 100);
-        static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(120, 100);
-        static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(240, 100);
-        static final int REGION_WIDTH = 80;
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(0, 90);
+        static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(120, 90);
+        static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(240, 90);
+        static final int REGION_WIDTH = 70;
         static final int REGION_HEIGHT = 80;
 
         /*

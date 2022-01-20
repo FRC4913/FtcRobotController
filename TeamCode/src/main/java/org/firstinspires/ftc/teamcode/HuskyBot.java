@@ -79,10 +79,6 @@ public class HuskyBot {
     public static final double SPINNER_POWER = 0.8;
     public static final double SPINNER_POWER_INCREMENT = 0.1;
 
-    public static final double AUTO_DRIVE_SPEED = 0.5;
-    public static final double AUTO_TURN_SPEED = 0.5;
-    public static final double AUTO_STRAFE_SPEED = 0.5;
-
     /* local OpMode members. */
     HardwareMap hwMap = null;
 
