@@ -67,11 +67,11 @@ public class HuskyBot {
 
     public static final int ARM_LEVEL_0 = 0;
     public static final int ARM_LEVEL_1 = 280;
-    public static final int ARM_LEVEL_2 = 480;
+    public static final int ARM_LEVEL_2 = 460;
     public static final int ARM_LEVEL_3 = 640;
 
     public static final double INTAKER_POWER_IN = 0.8;
-    public static final double INTAKER_POWER_OUT = -0.6;
+    public static final double INTAKER_POWER_OUT = -0.7;
 
     public static final int ARM_LOW_LIMIT = 0;
     public static final int ARM_HIGH_LIMIT = 750;

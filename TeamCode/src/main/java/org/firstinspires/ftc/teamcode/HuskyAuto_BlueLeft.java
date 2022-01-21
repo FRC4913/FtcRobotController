@@ -81,13 +81,13 @@ public class HuskyAuto_BlueLeft extends HuskyAutoBase {
         huskyBot.arm.setVelocity(300);
 
         encoderDrive(AUTO_DRIVE_SPEED, 6, 1);
-        encoderStrafe(AUTO_STRAFE_SPEED, 23, 2);
+        encoderStrafe(AUTO_STRAFE_SPEED, 21, 2);
         encoderDrive(AUTO_DRIVE_SPEED, forwardDistanceInches, 1);
 
         // deliver cargo
         runtime.reset();
-        huskyBot.intaker.setPower(-0.6);
-        while (opModeIsActive() && (runtime.seconds() < 1)) {
+        huskyBot.intaker.setPower(HuskyBot.INTAKER_POWER_OUT);
+        while (opModeIsActive() && (runtime.seconds() < 1.5)) {
         }
         huskyBot.intaker.setPower(0);
 
@@ -98,7 +98,7 @@ public class HuskyAuto_BlueLeft extends HuskyAutoBase {
 
 //        encoderTurn(AUTO_TURN_SPEED, -90, 2);
 //        encoderDrive(AUTO_DRIVE_SPEED, -38, 2);
-        encoderStrafe(AUTO_STRAFE_SPEED, -23, 2);
+        encoderStrafe(AUTO_STRAFE_SPEED, -21, 2);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

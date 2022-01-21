@@ -66,16 +66,16 @@ public class HuskyAuto_BlueRight extends HuskyAutoBase {
         switch (deliveryLevel) {
             case LEVEL_2:
                 huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_2);
-                forwardDistanceInches = 9;
+                forwardDistanceInches = 8.5;
                 break;
             case LEVEL_3:
                 huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_3);
-                forwardDistanceInches = 10;
+                forwardDistanceInches = 10.5;
                 break;
             case LEVEL_1:
             default:
                 huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_1);
-                forwardDistanceInches = 9.5;
+                forwardDistanceInches = 8.5;
                 break;
         }
         huskyBot.arm.setVelocity(300);
@@ -86,8 +86,8 @@ public class HuskyAuto_BlueRight extends HuskyAutoBase {
 
         // deliver cargo
         runtime.reset();
-        huskyBot.intaker.setPower(-0.6);
-        while (opModeIsActive() && (runtime.seconds() < 1)) {
+        huskyBot.intaker.setPower(HuskyBot.INTAKER_POWER_OUT);
+        while (opModeIsActive() && (runtime.seconds() < 1.5)) {
         }
         huskyBot.intaker.setPower(0);
 
@@ -97,6 +97,10 @@ public class HuskyAuto_BlueRight extends HuskyAutoBase {
         huskyBot.arm.setVelocity(300);
 
         encoderTurn(AUTO_TURN_SPEED, -90, 2);
+
+        // strafe left for duck delivery
+//        encoderStrafe(AUTO_STRAFE_SPEED, 20, 2);
+
         encoderDrive(AUTO_DRIVE_SPEED, -38, 2);
         encoderStrafe(AUTO_STRAFE_SPEED, 20, 2);
 

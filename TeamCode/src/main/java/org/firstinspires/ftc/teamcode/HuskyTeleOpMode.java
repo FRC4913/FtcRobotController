@@ -63,6 +63,7 @@ public class HuskyTeleOpMode extends LinearOpMode {
 
         boolean intakeOn = false;
         boolean armControlGamepad1 = true;
+        boolean curveDrive = false; // used to switch between linear power vs curvilinear
         int armTarget = huskyBot.arm.getCurrentPosition();
 
         double y, x, rx;
@@ -89,15 +90,23 @@ public class HuskyTeleOpMode extends LinearOpMode {
             x = gamepad1.left_stick_x;
             rx = gamepad1.right_stick_x;
 
-            // smoothen the drive by squaring the values, keeping the sign
-            y = y * Math.abs(y);
-            x = x * Math.abs(x);
-            rx = rx * Math.abs(rx);
+            if (gamepad1.dpad_up) {
+                curveDrive = true;
+            }
+            else if (gamepad1.dpad_down) {
+                curveDrive = false;
+            }
 
-            // smoothen the drive by cubing the values
-//            y = y * y * y;
-//            x = x * x * x;
-//            rx = rx * rx * rx;
+            if (curveDrive) {
+                // smoothen the drive by squaring the values, keeping the sign
+//                y = y * Math.abs(y);
+//                x = x * Math.abs(x);
+//                rx = rx * Math.abs(rx);
+                // smoothen the drive by cubing the values
+                y = y * y * y;
+                x = x * x * x;
+                rx = rx * rx * rx;
+            }
 
             if (gamepad2.x) {
                 armControlGamepad1 = false;
