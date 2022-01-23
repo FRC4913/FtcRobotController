@@ -49,6 +49,12 @@ public class HuskyAuto_RedRight extends HuskyAutoBase {
         waitForStart();
         runtime.reset();
 
+        // initial wait time if needed
+        while (opModeIsActive() && (runtime.seconds() < INIT_WAIT_SECS)) {
+        }
+
+        runtime.reset();
+
         // get the delivery level with timeout of 5 seconds. if the delivery level isn't detected
         // within timeout, it defaults to level 1 (see switch statement below)
         while (opModeIsActive() && (runtime.seconds() < 5))
@@ -66,16 +72,16 @@ public class HuskyAuto_RedRight extends HuskyAutoBase {
         switch (deliveryLevel) {
             case LEVEL_2:
                 huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_2);
-                forwardDistanceInches = 8;
+                forwardDistanceInches = 7.5;
                 break;
             case LEVEL_3:
                 huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_3);
-                forwardDistanceInches = 9;
+                forwardDistanceInches = 8.5;
                 break;
             case LEVEL_1:
             default:
                 huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_1);
-                forwardDistanceInches = 8.5;
+                forwardDistanceInches = 7;
                 break;
         }
         huskyBot.arm.setVelocity(300);

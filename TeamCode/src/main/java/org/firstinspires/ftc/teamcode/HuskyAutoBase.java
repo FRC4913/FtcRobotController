@@ -69,6 +69,8 @@ public class HuskyAutoBase extends LinearOpMode {
     public static final double AUTO_STRAFE_SPEED = 0.5;
     public static final int TURN_TRAVEL_INCHES = 19;
 
+    public static final int INIT_WAIT_SECS = 0;
+
     private OpenCvWebcam webcam;
 
     DeliveryLevelPipeline pipeline = new DeliveryLevelPipeline();

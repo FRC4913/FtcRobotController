@@ -49,6 +49,12 @@ public class HuskyAuto_BlueRight extends HuskyAutoBase {
         waitForStart();
         runtime.reset();
 
+        // initial wait time if needed
+        while (opModeIsActive() && (runtime.seconds() < INIT_WAIT_SECS)) {
+        }
+
+        runtime.reset();
+
         // get the delivery level with timeout of 5 seconds. if the delivery level isn't detected
         // within timeout, it defaults to level 1 (see switch statement below)
         while (opModeIsActive() && (runtime.seconds() < 5))
@@ -102,7 +108,7 @@ public class HuskyAuto_BlueRight extends HuskyAutoBase {
 //        encoderStrafe(AUTO_STRAFE_SPEED, 20, 2);
 
         encoderDrive(AUTO_DRIVE_SPEED, -38, 2);
-        encoderStrafe(AUTO_STRAFE_SPEED, 20, 2);
+        encoderStrafe(AUTO_STRAFE_SPEED, 17, 2);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
