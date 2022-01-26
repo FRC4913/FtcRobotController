@@ -76,8 +76,8 @@ public class HuskyBot {
     public static final int ARM_LOW_LIMIT = 0;
     public static final int ARM_HIGH_LIMIT = 750;
 
-    public static final double SPINNER_POWER = 0.8;
-    public static final double SPINNER_POWER_INCREMENT = 0.1;
+    public static final double SPINNER_POWER = 1;
+    public static final double SPINNER_POWER_INCREMENT = 0.15;
 
     /* local OpMode members. */
     HardwareMap hwMap = null;
