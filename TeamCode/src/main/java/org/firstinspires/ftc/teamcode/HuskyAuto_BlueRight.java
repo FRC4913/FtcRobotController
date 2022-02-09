@@ -108,7 +108,8 @@ public class HuskyAuto_BlueRight extends HuskyAutoBase {
 //        encoderStrafe(AUTO_STRAFE_SPEED, 20, 2);
 
         encoderDrive(AUTO_DRIVE_SPEED, -38, 2);
-        encoderStrafe(AUTO_STRAFE_SPEED, 17, 2);
+        encoderStrafe(AUTO_STRAFE_SPEED, 18, 2);
+        encoderDrive(AUTO_DRIVE_SPEED, -5, 2);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

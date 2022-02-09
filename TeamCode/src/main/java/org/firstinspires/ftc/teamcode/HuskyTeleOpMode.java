@@ -64,6 +64,7 @@ public class HuskyTeleOpMode extends LinearOpMode {
         boolean intakeOn = false;
         boolean armControlGamepad1 = true;
         boolean curveDrive = false; // used to switch between linear power vs curvilinear
+        boolean enableSecondaryDrive = false; // used to grant control to
         int armTarget = huskyBot.arm.getCurrentPosition();
 
         double y, x, rx;
@@ -85,10 +86,24 @@ public class HuskyTeleOpMode extends LinearOpMode {
                 finalRumbled = true;
             }
 
+            if (gamepad2.y) {
+                enableSecondaryDrive = !enableSecondaryDrive;
+            }
+
             // drive mechanism
             y = -gamepad1.left_stick_y; // Remember, this is reversed!
             x = gamepad1.left_stick_x;
             rx = gamepad1.right_stick_x;
+
+            if (enableSecondaryDrive) {
+                y -= 0.3*(gamepad2.left_stick_y);
+//                y = Range.clip(y, -1, 1);
+                y = Math.max(-1, Math.min(1, y));
+                x += 0.3*(gamepad2.left_stick_x);
+                x = Math.max(-1, Math.min(1, x));
+                rx += 0.3*(gamepad2.right_stick_x);
+                rx = Math.max(-1, Math.min(1, rx));
+            }
 
             if (gamepad1.dpad_up) {
                 curveDrive = true;
@@ -144,7 +159,7 @@ public class HuskyTeleOpMode extends LinearOpMode {
             } else {
                 // allow the arm to move freely without encoder target taking input from gamepad2 (if
                 // encoders don't work for some reason)
-                double armPower = -gamepad2.left_stick_y;
+                double armPower = -gamepad2.right_stick_y;
                 armPower = Range.clip(armPower, -0.1, 0.35);
 
                 // set power to 0 if any of the limits have been reached
