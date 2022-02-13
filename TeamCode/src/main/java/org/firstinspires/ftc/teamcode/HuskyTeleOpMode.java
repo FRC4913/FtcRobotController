@@ -44,7 +44,7 @@ public class HuskyTeleOpMode extends LinearOpMode {
 
     HuskyBot huskyBot = new HuskyBot();
 
-    final double END_GAME_TIME = 90.0;  // last 30 seconds
+    final double END_GAME_TIME = 85.0;  // last 35 seconds
     final double FINAL_TIME = 110.0;    // last 10 seconds
     boolean endGameRumbled = false;
     boolean finalRumbled = false;
@@ -64,6 +64,7 @@ public class HuskyTeleOpMode extends LinearOpMode {
         boolean intakeOn = false;
         boolean armControlGamepad1 = true;
         boolean curveDrive = false; // used to switch between linear power vs curvilinear
+        boolean enableSecondaryDrive = false; // used to grant control to
         int armTarget = huskyBot.arm.getCurrentPosition();
 
         double y, x, rx;
@@ -85,15 +86,27 @@ public class HuskyTeleOpMode extends LinearOpMode {
                 finalRumbled = true;
             }
 
+            if (gamepad2.y) {
+                enableSecondaryDrive = !enableSecondaryDrive;
+            }
+
             // drive mechanism
             y = -gamepad1.left_stick_y; // Remember, this is reversed!
             x = gamepad1.left_stick_x;
             rx = gamepad1.right_stick_x;
 
+            if (enableSecondaryDrive) {
+                y -= 0.3 * (gamepad2.left_stick_y);
+                y = Range.clip(y, -1, 1);
+                x += 0.3 * (gamepad2.left_stick_x);
+                x = Range.clip(x, -1, 1);
+                rx += 0.3 * (gamepad2.right_stick_x);
+                rx = Range.clip(rx, -1, 1);
+            }
+
             if (gamepad1.dpad_up) {
                 curveDrive = true;
-            }
-            else if (gamepad1.dpad_down) {
+            } else if (gamepad1.dpad_down) {
                 curveDrive = false;
             }
 
@@ -144,7 +157,7 @@ public class HuskyTeleOpMode extends LinearOpMode {
             } else {
                 // allow the arm to move freely without encoder target taking input from gamepad2 (if
                 // encoders don't work for some reason)
-                double armPower = -gamepad2.left_stick_y;
+                double armPower = -gamepad2.right_stick_y;
                 armPower = Range.clip(armPower, -0.1, 0.35);
 
                 // set power to 0 if any of the limits have been reached
