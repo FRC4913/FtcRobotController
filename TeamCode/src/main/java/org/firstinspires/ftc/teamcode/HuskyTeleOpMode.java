@@ -44,7 +44,7 @@ public class HuskyTeleOpMode extends LinearOpMode {
 
     HuskyBot huskyBot = new HuskyBot();
 
-    final double END_GAME_TIME = 85.0;  // last 35 seconds
+    final double END_GAME_TIME = 80.0;  // last 40 seconds
     final double FINAL_TIME = 110.0;    // last 10 seconds
     boolean endGameRumbled = false;
     boolean finalRumbled = false;
@@ -63,8 +63,6 @@ public class HuskyTeleOpMode extends LinearOpMode {
 
         boolean intakeOn = false;
         boolean armControlGamepad1 = true;
-        boolean curveDrive = false; // used to switch between linear power vs curvilinear
-        boolean enableSecondaryDrive = false; // used to grant control to
         int armTarget = huskyBot.arm.getCurrentPosition();
 
         double y, x, rx;
@@ -86,40 +84,19 @@ public class HuskyTeleOpMode extends LinearOpMode {
                 finalRumbled = true;
             }
 
-            if (gamepad2.y) {
-                enableSecondaryDrive = !enableSecondaryDrive;
-            }
-
             // drive mechanism
             y = -gamepad1.left_stick_y; // Remember, this is reversed!
             x = gamepad1.left_stick_x;
             rx = gamepad1.right_stick_x;
 
-            if (enableSecondaryDrive) {
-                y -= 0.3 * (gamepad2.left_stick_y);
-                y = Range.clip(y, -1, 1);
-                x += 0.3 * (gamepad2.left_stick_x);
-                x = Range.clip(x, -1, 1);
-                rx += 0.3 * (gamepad2.right_stick_x);
-                rx = Range.clip(rx, -1, 1);
-            }
-
-            if (gamepad1.dpad_up) {
-                curveDrive = true;
-            } else if (gamepad1.dpad_down) {
-                curveDrive = false;
-            }
-
-            if (curveDrive) {
-                // smoothen the drive by squaring the values, keeping the sign
-//                y = y * Math.abs(y);
-//                x = x * Math.abs(x);
-//                rx = rx * Math.abs(rx);
-                // smoothen the drive by cubing the values
-                y = y * y * y;
-                x = x * x * x;
-                rx = rx * rx * rx;
-            }
+            // this allows gamepad2 driver to drive the robot at a slower speed, to fine tune
+            // the position of the robot when delivering the cargo
+            y -= 0.3 * (gamepad2.left_stick_y);
+            y = Range.clip(y, -1, 1);
+            x += 0.3 * (gamepad2.left_stick_x);
+            x = Range.clip(x, -1, 1);
+            rx += 0.3 * (gamepad2.right_stick_x);
+            rx = Range.clip(rx, -1, 1);
 
             if (gamepad2.x) {
                 armControlGamepad1 = false;
