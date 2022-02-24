@@ -106,9 +106,15 @@ public class HuskyAuto_BlueRight extends HuskyAutoBase {
 
         // strafe left for duck delivery
 //        encoderStrafe(AUTO_STRAFE_SPEED, 20, 2);
-
-        encoderDrive(AUTO_DRIVE_SPEED, -38, 2);
-        encoderStrafe(AUTO_STRAFE_SPEED, 17, 2);
+        encoderDrive(AUTO_DRIVE_SPEED, -32, 2);
+        encoderDrive(AUTO_DRIVE_SPEED/2,-6,1);
+        encoderStrafe(AUTO_STRAFE_SPEED/1.5,-16,2);
+        encoderDrive(AUTO_DRIVE_SPEED/2.25,-3,1);
+        carouselRotate(0.35,0.05,3);
+        encoderStrafe(AUTO_STRAFE_SPEED, 24, 2);
+        encoderDrive(AUTO_DRIVE_SPEED/1.5,-5,1);
+//        encoderDrive(AUTO_DRIVE_SPEED, -38, 2);
+//        encoderStrafe(AUTO_STRAFE_SPEED, 17, 2);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

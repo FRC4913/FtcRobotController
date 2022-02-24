@@ -136,12 +136,28 @@ public class HuskyAutoBase extends LinearOpMode {
         driveToTarget(speed, target, -target, target, -target, timeoutSecs);
     }
 
+    public void carouselRotate(double targetPower, double powerStep, double timeoutSecs) {
+        // Spin to target power for power step for targetTime with powerStep increment
+        double currentPower = 0;
+        while (opModeIsActive() &&
+                (runtime.seconds() < timeoutSecs)) {
+            currentPower+= powerStep;
+            if (currentPower>1){
+                currentPower = 1;
+            }
+            huskyBot.spinner.setPower(currentPower);
+        }
+
+        huskyBot.spinner.setPower(currentPower+powerStep);
+    }
+
     private void resetDriveEncoders() {
         huskyBot.frontLeftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         huskyBot.frontRightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         huskyBot.rearLeftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         huskyBot.rearRightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
+
 
     public void driveToTarget(double speed, int frontLeftTarget, int frontRightTarget,
                                int rearLeftTarget, int rearRightTarget, double timeoutSecs) {
