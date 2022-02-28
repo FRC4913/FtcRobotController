@@ -22,8 +22,11 @@ public class DriveConstants {
     /*
      * These are motor constants that should be listed online for your motors.
      */
-    public static final double TICKS_PER_REV = 537.6;
-    public static final double MAX_RPM = 312.5;
+    // rev motors are 28 ticks per rev, and with 5:1 and 4:1 ultra planetary gears
+    // it comes to 28 * 18.9 ticks per rev (https://docs.revrobotics.com/ultraplanetary/ultraplanetary-gearbox/cartridge-details)
+
+    public static final double TICKS_PER_REV = 529.2;
+    public static final double MAX_RPM = 317.46;
 
     /*
      * Set RUN_USING_ENCODER to true to enable built-in hub velocity control using drive encoders.
@@ -34,8 +37,9 @@ public class DriveConstants {
      * from DriveVelocityPIDTuner.
      */
     public static final boolean RUN_USING_ENCODER = true;
-    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(0, 0, 0,
-            getMotorVelocityF(MAX_RPM / 60 * TICKS_PER_REV));
+    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(12, 0, 1.2,
+            20.9);
+//            getMotorVelocityF(MAX_RPM / 60 * TICKS_PER_REV));
 
     /*
      * These are physical constants that can be determined from your robot (including the track
@@ -46,8 +50,10 @@ public class DriveConstants {
      * convenience. Make sure to exclude any gear ratio included in MOTOR_CONFIG from GEAR_RATIO.
      */
     public static double WHEEL_RADIUS = 1.4763; // in
-    public static double GEAR_RATIO = 11.8; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 15.5; // in
+    // 72 / 45
+//    public static double GEAR_RATIO = 1.6; // output (wheel) speed / input (motor) speed
+    public static double GEAR_RATIO = 2.152; // output (wheel) speed / input (motor) speed, tuned
+    public static double TRACK_WIDTH = 16.09; // not actual, based on tuning
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -99,10 +105,12 @@ public class DriveConstants {
      * https://github.com/acmerobotics/road-runner-quickstart/issues/91
 
      */
-    public static double MAX_VEL = 90;
-    public static double MAX_ACCEL = 90;
-    public static double MAX_ANG_VEL = Math.toRadians(332.68517136628446);
-    public static double MAX_ANG_ACCEL = Math.toRadians(332.68517136628446);
+    public static double MAX_VEL = 65;
+    public static double MAX_ACCEL = 65;
+//    public static double MAX_ANG_VEL = Math.toRadians(332.68517136628446);
+//    public static double MAX_ANG_ACCEL = Math.toRadians(332.68517136628446);
+    public static double MAX_ANG_VEL = Math.toRadians(246);
+    public static double MAX_ANG_ACCEL = Math.toRadians(246);
 
 
     public static double encoderTicksToInches(double ticks) {
