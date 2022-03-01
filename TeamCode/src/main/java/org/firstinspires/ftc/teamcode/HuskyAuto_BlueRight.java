@@ -81,13 +81,13 @@ public class HuskyAuto_BlueRight extends HuskyAutoBase {
             case LEVEL_1:
             default:
                 huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_1);
-                forwardDistanceInches = 8.5;
+                forwardDistanceInches = 9.5;
                 break;
         }
         huskyBot.arm.setVelocity(300);
 
         encoderDrive(AUTO_DRIVE_SPEED, 6, 1);
-        encoderStrafe(AUTO_STRAFE_SPEED, -20, 2);
+        encoderStrafe(AUTO_STRAFE_SPEED, -19, 2);
         encoderDrive(AUTO_DRIVE_SPEED, forwardDistanceInches, 1);
 
         // deliver cargo
@@ -98,21 +98,21 @@ public class HuskyAuto_BlueRight extends HuskyAutoBase {
         huskyBot.intaker.setPower(0);
 
         // back up before lowering arm
-        encoderDrive(AUTO_DRIVE_SPEED, -forwardDistanceInches, 1);
+        encoderDrive(AUTO_DRIVE_SPEED, -forwardDistanceInches+3, 1);
         huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_0);
         huskyBot.arm.setVelocity(300);
 
-        encoderTurn(AUTO_TURN_SPEED, -90, 2);
+        encoderTurn(AUTO_TURN_SPEED, -85, 2);
 
         // strafe left for duck delivery
 //        encoderStrafe(AUTO_STRAFE_SPEED, 20, 2);
         encoderDrive(AUTO_DRIVE_SPEED, -32, 2);
-        encoderDrive(AUTO_DRIVE_SPEED/2,-6,1);
-        encoderStrafe(AUTO_STRAFE_SPEED/1.5,-16,2);
+        encoderDrive(AUTO_DRIVE_SPEED/2,-9,1);
+        encoderStrafe(AUTO_STRAFE_SPEED/1.5,-18,2);
         encoderDrive(AUTO_DRIVE_SPEED/2.25,-3,1);
-        carouselRotate(0.35,0.05,3);
+        carouselRotate(0.6,0.05,3);
         encoderStrafe(AUTO_STRAFE_SPEED, 24, 2);
-        encoderDrive(AUTO_DRIVE_SPEED/1.5,-5,1);
+        encoderDrive(AUTO_DRIVE_SPEED/1.5,-8,1);
 //        encoderDrive(AUTO_DRIVE_SPEED, -38, 2);
 //        encoderStrafe(AUTO_STRAFE_SPEED, 17, 2);
 

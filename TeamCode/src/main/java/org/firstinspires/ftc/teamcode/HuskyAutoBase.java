@@ -138,17 +138,17 @@ public class HuskyAutoBase extends LinearOpMode {
 
     public void carouselRotate(double targetPower, double powerStep, double timeoutSecs) {
         // Spin to target power for power step for targetTime with powerStep increment
-        double currentPower = 0;
+//        double currentPower = 0;
+        runtime.reset();
         while (opModeIsActive() &&
                 (runtime.seconds() < timeoutSecs)) {
-            currentPower+= powerStep;
-            if (currentPower>1){
-                currentPower = 1;
-            }
-            huskyBot.spinner.setPower(currentPower);
+//            currentPower+= powerStep;
+//            if (currentPower>1){
+//                currentPower = 1;
+//            }
+            huskyBot.spinner.setPower(targetPower);
         }
-
-        huskyBot.spinner.setPower(currentPower+powerStep);
+        huskyBot.spinner.setPower(0);
     }
 
     private void resetDriveEncoders() {
