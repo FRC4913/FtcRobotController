@@ -31,10 +31,33 @@ package org.firstinspires.ftc.teamcode;
 
 import static org.firstinspires.ftc.teamcode.HuskyAutoBase.DeliveryLevelPipeline.DeliveryLevel;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
+@Config
 @Autonomous(name = "Auto Blue Right", group = "Auto", preselectTeleOp = "Husky TeleOpMode")
 public class HuskyAuto_BlueRight extends HuskyAutoBase {
+
+    // pre loaded cargo delivery
+    public static double DISTANCE1_FORWARD_IN = 6;
+    public static double DISTANCE2_STRAFE_IN = -20;
+    public static double DISTANCE3_FORWARD_IN;
+    public static double DISTANCE4_BACKWARD_IN = -8;
+
+    // drive to carousel and duck delivery
+    public static double TURN_ANGLE = -90;
+    public static double DISTANCE5_BACKWARD_IN = -32;
+    public static double SENSOR_DISTANCE6_IN = 4;
+    public static double DISTANCE6_STRAFE_IN = -12;
+    public static double DISTANCE7_STRAFE_IN = 4;
+
+    public static double CAROUSEL_ROTATE_POWER = 0.5;
+
+    // storage unit parking
+    public static double STRAFE_DISTANCE9_IN = 24;
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -44,7 +67,6 @@ public class HuskyAuto_BlueRight extends HuskyAutoBase {
         telemetry.update();
 
         DeliveryLevel deliveryLevel = DeliveryLevel.LEVEL_0;    // default undefined level
-        double forwardDistanceInches;
 
         waitForStart();
         runtime.reset();
@@ -72,23 +94,23 @@ public class HuskyAuto_BlueRight extends HuskyAutoBase {
         switch (deliveryLevel) {
             case LEVEL_2:
                 huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_2);
-                forwardDistanceInches = 8.5;
+                DISTANCE3_FORWARD_IN = 9.5;
                 break;
             case LEVEL_3:
                 huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_3);
-                forwardDistanceInches = 10.5;
+                DISTANCE3_FORWARD_IN = 10.5;
                 break;
             case LEVEL_1:
             default:
                 huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_1);
-                forwardDistanceInches = 8.5;
+                DISTANCE3_FORWARD_IN = 8.5;
                 break;
         }
         huskyBot.arm.setVelocity(300);
 
-        encoderDrive(AUTO_DRIVE_SPEED, 6, 1);
-        encoderStrafe(AUTO_STRAFE_SPEED, -20, 2);
-        encoderDrive(AUTO_DRIVE_SPEED, forwardDistanceInches, 1);
+        encoderDrive(AUTO_DRIVE_SPEED, DISTANCE1_FORWARD_IN, 1);
+        encoderStrafe(AUTO_STRAFE_SPEED, DISTANCE2_STRAFE_IN, 2);
+        encoderDrive(AUTO_DRIVE_SPEED, DISTANCE3_FORWARD_IN, 1);
 
         // deliver cargo
         runtime.reset();
@@ -98,17 +120,30 @@ public class HuskyAuto_BlueRight extends HuskyAutoBase {
         huskyBot.intaker.setPower(0);
 
         // back up before lowering arm
-        encoderDrive(AUTO_DRIVE_SPEED, -forwardDistanceInches, 1);
+        encoderDrive(AUTO_DRIVE_SPEED, DISTANCE4_BACKWARD_IN, 1);
         huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_0);
         huskyBot.arm.setVelocity(300);
 
-        encoderTurn(AUTO_TURN_SPEED, -90, 2);
 
-        // strafe left for duck delivery
-//        encoderStrafe(AUTO_STRAFE_SPEED, 20, 2);
+        // drive to carousel and deliver duck
+        encoderTurn(AUTO_TURN_SPEED, TURN_ANGLE, 2);
+        encoderDrive(AUTO_DRIVE_SPEED, DISTANCE5_BACKWARD_IN, 2);
 
-        encoderDrive(AUTO_DRIVE_SPEED, -38, 2);
-        encoderStrafe(AUTO_STRAFE_SPEED, 17, 2);
+        // strafe left to side against the wall
+        encoderStrafe(AUTO_STRAFE_SPEED/1.1, DISTANCE6_STRAFE_IN,2);
+        // strafe slightly right
+        encoderStrafe(AUTO_STRAFE_SPEED, DISTANCE7_STRAFE_IN,1);
+
+        // back up to touch the spinner to carousel
+        double sensorDistance = huskyBot.distanceSensorBack.getDistance(DistanceUnit.INCH);
+        encoderDrive(AUTO_DRIVE_SPEED/1.2,-(sensorDistance-SENSOR_DISTANCE6_IN),1);
+
+        carouselRotate(CAROUSEL_ROTATE_POWER,4);
+
+        // park in storage unit
+        encoderStrafe(AUTO_STRAFE_SPEED, STRAFE_DISTANCE9_IN, 2);
+        sensorDistance = huskyBot.distanceSensorBack.getDistance(DistanceUnit.INCH);
+        encoderDrive(AUTO_DRIVE_SPEED/1.5,-sensorDistance,2);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

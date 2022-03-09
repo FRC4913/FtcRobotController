@@ -69,7 +69,7 @@ public class HuskyAutoBase extends LinearOpMode {
     public static final double AUTO_STRAFE_SPEED = 0.5;
     public static final int TURN_TRAVEL_INCHES = 19;
 
-    public static final int INIT_WAIT_SECS = 0;
+    public static int INIT_WAIT_SECS = 0;
 
     private OpenCvWebcam webcam;
 
@@ -95,6 +95,14 @@ public class HuskyAutoBase extends LinearOpMode {
             public void onError(int errorCode) {
             }
         });
+    }
+
+    public void carouselRotate(double targetPower, double timeoutSecs) {
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < timeoutSecs)) {
+            huskyBot.spinner.setPower(targetPower);
+        }
+        huskyBot.spinner.setPower(0);
     }
 
     /*
@@ -144,7 +152,7 @@ public class HuskyAutoBase extends LinearOpMode {
     }
 
     public void driveToTarget(double speed, int frontLeftTarget, int frontRightTarget,
-                               int rearLeftTarget, int rearRightTarget, double timeoutSecs) {
+                              int rearLeftTarget, int rearRightTarget, double timeoutSecs) {
         resetDriveEncoders();
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
