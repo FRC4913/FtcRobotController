@@ -36,6 +36,16 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 @Autonomous(name = "Auto Red Right", group = "Auto", preselectTeleOp = "Husky TeleOpMode")
 public class HuskyAuto_RedRight extends HuskyAutoBase {
 
+    // pre loaded cargo delivery
+    public static double DISTANCE1_FORWARD_IN = 6;
+    public static double DISTANCE2_STRAFE_IN = -22;
+    public static double DISTANCE3_FORWARD_IN;
+    public static double DISTANCE4_BACKWARD_IN = -6;
+
+    // drive to carousel and duck delivery
+    public static double TURN_ANGLE = -90;
+    public static double DISTANCE5_BACKWARD_IN = -32;
+
     @Override
     public void runOpMode() throws InterruptedException {
         super.runOpMode();
@@ -44,7 +54,6 @@ public class HuskyAuto_RedRight extends HuskyAutoBase {
         telemetry.update();
 
         DeliveryLevel deliveryLevel = DeliveryLevel.LEVEL_0;    // default undefined level
-        double forwardDistanceInches;
 
         waitForStart();
         runtime.reset();
@@ -72,23 +81,23 @@ public class HuskyAuto_RedRight extends HuskyAutoBase {
         switch (deliveryLevel) {
             case LEVEL_2:
                 huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_2);
-                forwardDistanceInches = 7.5;
+                DISTANCE3_FORWARD_IN = 7.5;
                 break;
             case LEVEL_3:
                 huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_3);
-                forwardDistanceInches = 8.5;
+                DISTANCE3_FORWARD_IN = 8.5;
                 break;
             case LEVEL_1:
             default:
                 huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_1);
-                forwardDistanceInches = 7;
+                DISTANCE3_FORWARD_IN = 7;
                 break;
         }
         huskyBot.arm.setVelocity(300);
 
-        encoderDrive(AUTO_DRIVE_SPEED, 6, 1);
-        encoderStrafe(AUTO_STRAFE_SPEED, -22, 2);
-        encoderDrive(AUTO_DRIVE_SPEED, forwardDistanceInches, 1);
+        encoderDrive(AUTO_DRIVE_SPEED, DISTANCE1_FORWARD_IN, 1);
+        encoderStrafe(AUTO_STRAFE_SPEED, DISTANCE2_STRAFE_IN, 2);
+        encoderDrive(AUTO_DRIVE_SPEED, DISTANCE3_FORWARD_IN, 1);
 
         // deliver cargo
         runtime.reset();
@@ -98,13 +107,17 @@ public class HuskyAuto_RedRight extends HuskyAutoBase {
         huskyBot.intaker.setPower(0);
 
         // back up before lowering arm
-        encoderDrive(AUTO_DRIVE_SPEED, -forwardDistanceInches, 1);
+        encoderDrive(AUTO_DRIVE_SPEED, DISTANCE4_BACKWARD_IN, 1);
         huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_0);
         huskyBot.arm.setVelocity(300);
 
-//        encoderTurn(AUTO_TURN_SPEED, -90, 2);
-//        encoderDrive(AUTO_DRIVE_SPEED, -38, 2);
-        encoderStrafe(AUTO_STRAFE_SPEED, 22, 2);
+        // raise arm and move to warehouse
+        encoderTurn(AUTO_TURN_SPEED, TURN_ANGLE, 2);
+        huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_1);
+        huskyBot.arm.setVelocity(300);
+        encoderDrive(AUTO_DRIVE_SPEED, DISTANCE5_BACKWARD_IN, 2);
+
+        // encoderStrafe(AUTO_STRAFE_SPEED, 22, 2);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

@@ -58,7 +58,6 @@ public class HuskyAuto_BlueRight extends HuskyAutoBase {
     // storage unit parking
     public static double STRAFE_DISTANCE9_IN = 24;
 
-
     @Override
     public void runOpMode() throws InterruptedException {
         super.runOpMode();
@@ -129,9 +128,9 @@ public class HuskyAuto_BlueRight extends HuskyAutoBase {
         encoderTurn(AUTO_TURN_SPEED, TURN_ANGLE, 2);
         encoderDrive(AUTO_DRIVE_SPEED, DISTANCE5_BACKWARD_IN, 2);
 
-        // strafe left to side against the wall
+        // strafe to side against the wall
         encoderStrafe(AUTO_STRAFE_SPEED/1.1, DISTANCE6_STRAFE_IN,2);
-        // strafe slightly right
+        // strafe slightly away
         encoderStrafe(AUTO_STRAFE_SPEED, DISTANCE7_STRAFE_IN,1);
 
         // back up to touch the spinner to carousel
