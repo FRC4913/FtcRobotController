@@ -31,20 +31,23 @@ package org.firstinspires.ftc.teamcode;
 
 import static org.firstinspires.ftc.teamcode.HuskyAutoBase.DeliveryLevelPipeline.DeliveryLevel;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+@Config
 @Autonomous(name = "Auto Red Right", group = "Auto", preselectTeleOp = "Husky TeleOpMode")
 public class HuskyAuto_RedRight extends HuskyAutoBase {
 
     // pre loaded cargo delivery
     public static double DISTANCE1_FORWARD_IN = 6;
-    public static double DISTANCE2_STRAFE_IN = -22;
+    public static double DISTANCE2_STRAFE_IN = -20;
     public static double DISTANCE3_FORWARD_IN;
     public static double DISTANCE4_BACKWARD_IN = -6;
 
     // drive to carousel and duck delivery
-    public static double TURN_ANGLE = -90;
-    public static double DISTANCE5_BACKWARD_IN = -32;
+    public static double TURN_ANGLE = 90;
+    public static double DISTANCE5_FORWARD_IN = 16;
+    public static double DISTANCE6_STRAFE_IN = -16;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -81,16 +84,16 @@ public class HuskyAuto_RedRight extends HuskyAutoBase {
         switch (deliveryLevel) {
             case LEVEL_2:
                 huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_2);
-                DISTANCE3_FORWARD_IN = 7.5;
+                DISTANCE3_FORWARD_IN = 8;
                 break;
             case LEVEL_3:
                 huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_3);
-                DISTANCE3_FORWARD_IN = 8.5;
+                DISTANCE3_FORWARD_IN = 9;
                 break;
             case LEVEL_1:
             default:
                 huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_1);
-                DISTANCE3_FORWARD_IN = 7;
+                DISTANCE3_FORWARD_IN = 8;
                 break;
         }
         huskyBot.arm.setVelocity(300);
@@ -111,13 +114,12 @@ public class HuskyAuto_RedRight extends HuskyAutoBase {
         huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_0);
         huskyBot.arm.setVelocity(300);
 
-        // raise arm and move to warehouse
+        // raise arm and move towards warehouse
+        // huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_1);
+        // huskyBot.arm.setVelocity(300);
         encoderTurn(AUTO_TURN_SPEED, TURN_ANGLE, 2);
-        huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_1);
-        huskyBot.arm.setVelocity(300);
-        encoderDrive(AUTO_DRIVE_SPEED, DISTANCE5_BACKWARD_IN, 2);
-
-        // encoderStrafe(AUTO_STRAFE_SPEED, 22, 2);
+        encoderDrive(AUTO_DRIVE_SPEED, DISTANCE5_FORWARD_IN, 2);
+        encoderStrafe(AUTO_STRAFE_SPEED, DISTANCE6_STRAFE_IN, 2);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

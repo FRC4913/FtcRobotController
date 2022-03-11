@@ -102,7 +102,7 @@ public class HuskyAuto_RedLeft extends HuskyAutoBase {
             case LEVEL_1:
             default:
                 huskyBot.arm.setTargetPosition(HuskyBot.ARM_LEVEL_1);
-                DISTANCE3_FORWARD_IN = 8.5;
+                DISTANCE3_FORWARD_IN = 10.5;
                 break;
         }
         huskyBot.arm.setVelocity(300);
